@@ -45,12 +45,16 @@ def create_date_obj(dateString, stringText):
 
 def calculate_date_range(startDateObj, endDateObj):
     """This function expects user defined date class object for start and end dates.Returns difference between the same.
-    If end date is less than start date, it just calucalte the difference backwards"""
+    It also raises an exception in case of invalid date range keyed in by user."""
 
-    if validate.validate_date_range(validateObj, startDateObj, endDateObj):  # Validates if start date is less than end date.
-        return calObj.get_days_difference(startDateObj, endDateObj)
-    else:
-        return calObj.get_days_difference(endDateObj, startDateObj)
+    try:
+        if validate.validate_date_range(validateObj, startDateObj, endDateObj):  # Valid date range of both start and end dates
+            return calObj.get_days_difference(startDateObj, endDateObj)    # Return the valid difference between the dates
+        else:
+            raise ValueError                                            # Raise an exception if date range is invalid
+    except ValueError:
+        print "Invalid start and end date range keyed in, please retry" # Exception print informing user about the same
+        sys.exit()                                                      # Exit the programme.
 
 if __name__ == "__main__":
 
